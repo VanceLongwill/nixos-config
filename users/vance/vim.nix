@@ -3,11 +3,6 @@ self: super:
 let sources = import ../../nix/sources.nix; in rec {
   # My vim config
   customVim = with self; {
-    vim-cue = vimUtils.buildVimPlugin {
-      name = "vim-cue";
-      src = sources.vim-cue;
-    };
-
     vim-fish = vimUtils.buildVimPlugin {
       name = "vim-fish";
       src = sources.vim-fish;
@@ -28,33 +23,13 @@ let sources = import ../../nix/sources.nix; in rec {
       src = sources.vim-pgsql;
     };
 
-    vim-tla = vimUtils.buildVimPlugin {
-      name = "tla.vim";
-      src = sources.vim-tla;
-    };
-
-    vim-zig = vimUtils.buildVimPlugin {
-      name = "zig.vim";
-      src = sources.vim-zig;
-    };
-
-    dracula = vimUtils.buildVimPlugin {
-      name = "dracula";
-      src = sources.vim-dracula;
-    };
-
-    pigeon = vimUtils.buildVimPlugin {
-      name = "pigeon.vim";
-      src = sources.vim-pigeon;
-    };
-
-    AfterColors = vimUtils.buildVimPlugin {
-      name = "AfterColors";
+    solarized8 = vimUtils.buildVimPlugin {
+      name = "solarized8";
       src = pkgs.fetchFromGitHub {
-        owner = "vim-scripts";
-        repo = "AfterColors.vim";
-        rev = "9936c26afbc35e6f92275e3f314a735b54ba1aaf";
-        sha256 = "0j76g83zlxyikc41gn1gaj7pszr37m7xzl8i9wkfk6ylhcmjp2xi";
+        owner = "lifepillar";
+        repo = "vim-solarized8";
+        rev = "28b81a4263054f9584a98f94cca3e42815d44725";
+        sha256 = "usnDuV0EJ7jD0eB+/NLIhLRle865hbbuF7MC33R3AG8=";
       };
     };
 

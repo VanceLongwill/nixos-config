@@ -23,6 +23,7 @@ let sources = import ../../nix/sources.nix; in {
     pkgs.tree
     pkgs.watch
     pkgs.zathura
+    pkgs.ripgrep
 
     pkgs.go
     pkgs.gopls
@@ -92,6 +93,7 @@ let sources = import ../../nix/sources.nix; in {
         prefix= [
           "$HOME/code/go/src/github.com/hashicorp"
           "$HOME/code/go/src/github.com/mitchellh"
+          "$HOME/code/go/src/github.com/vancelongwill"
         ];
 
         exact = ["$HOME/.envrc"];
@@ -116,9 +118,13 @@ let sources = import ../../nix/sources.nix; in {
       gcp = "git cherry-pick";
       gdiff = "git diff";
       gl = "git prettylog";
+      glol = "git prettylog";
       gp = "git push";
       gs = "git status";
       gt = "git tag";
+      gst = "git status";
+      gaa = "git add --all";
+      vim = "nvim";
 
       # Two decades of using a Mac has made this such a strong memory
       # that I'm just going to keep it consistent.
@@ -166,15 +172,28 @@ let sources = import ../../nix/sources.nix; in {
     terminal = "xterm-256color";
     shortcut = "l";
     secureSocket = false;
+    prefix = "C-b";
 
     extraConfig = ''
       set -ga terminal-overrides ",*256col*:Tc"
+      set-option -sg escape-time 10
+
+      set -g mouse on
+      setw -g mode-keys vi
+      # If you don’t mind artifically introducing a few Vim-only features to the vi mode, you can set things up so that v starts a selection and y finishes it in the same way that Space and Enter do, more like Vim:
+      bind-key -T copy-mode-vi 'v' send -X begin-selection
+      bind-key -T copy-mode-vi 'y' send -X copy-selection-and-cancel
+
+      bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'xclip -in -selection clipboard'
+
+      # prevent "release mouse click to copy and exit copy mode and reset scroll position"
+      # keeps scroll position after highlight/mouse release
+      unbind -T copy-mode-vi MouseDragEnd1Pane
+
 
       set -g @dracula-show-battery false
       set -g @dracula-show-network false
       set -g @dracula-show-weather false
-
-      bind -n C-k send-keys "clear"\; send-keys "Enter"
 
       run-shell ${sources.tmux-pain-control}/pain_control.tmux
       run-shell ${sources.tmux-dracula}/dracula.tmux
@@ -225,15 +244,10 @@ let sources = import ../../nix/sources.nix; in {
     package = pkgs.neovim-nightly;
 
     plugins = with pkgs; [
-      customVim.vim-cue
       customVim.vim-fish
       customVim.vim-fugitive
       customVim.vim-misc
       customVim.vim-pgsql
-      customVim.vim-tla
-      customVim.vim-zig
-      customVim.pigeon
-      customVim.AfterColors
 
       customVim.vim-nord
       customVim.nvim-comment
@@ -244,9 +258,17 @@ let sources = import ../../nix/sources.nix; in {
       customVim.nvim-treesitter-playground
       customVim.nvim-treesitter-textobjects
 
+      customVim.solarized8
+
+      vimPlugins.fzf-vim
+      vimPlugins.markdown-preview-nvim
+      vimPlugins.nerdtree
+      vimPlugins.vim-surround
+      vimPlugins.vimwiki
+      vimPlugins.vim-oscyank
+      vimPlugins.vim-abolish
       vimPlugins.vim-airline
       vimPlugins.vim-airline-themes
-      vimPlugins.vim-eunuch
       vimPlugins.vim-gitgutter
 
       vimPlugins.vim-markdown
