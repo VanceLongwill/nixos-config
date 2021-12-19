@@ -23,7 +23,6 @@ let sources = import ../../nix/sources.nix; in {
     pkgs.tree
     pkgs.watch
     pkgs.zathura
-    pkgs._1password
 
     pkgs.go
     pkgs.gopls
@@ -38,9 +37,9 @@ let sources = import ../../nix/sources.nix; in {
   #---------------------------------------------------------------------
 
   home.sessionVariables = {
-    LANG = "en_US.UTF-8";
-    LC_CTYPE = "en_US.UTF-8";
-    LC_ALL = "en_US.UTF-8";
+    LANG = "en_GB.UTF-8";
+    LC_CTYPE = "en_GB.UTF-8";
+    LC_ALL = "en_GB.UTF-8";
     EDITOR = "nvim";
     PAGER = "less -FirSwX";
     MANPAGER = "sh -c 'col -bx | ${pkgs.bat}/bin/bat -l man -p'";
@@ -139,12 +138,8 @@ let sources = import ../../nix/sources.nix; in {
 
   programs.git = {
     enable = true;
-    userName = "Mitchell Hashimoto";
-    userEmail = "mitchell.hashimoto@gmail.com";
-    signing = {
-      key = "523D5DC389D273BC";
-      signByDefault = true;
-    };
+    userName = "Vance Longwill";
+    userEmail = "vance@evren.co.uk";
     aliases = {
       prettylog = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(r) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
       root = "rev-parse --show-toplevel";
@@ -154,7 +149,7 @@ let sources = import ../../nix/sources.nix; in {
       color.ui = true;
       core.askPass = ""; # needs to be empty to use terminal for ask pass
       credential.helper = "store"; # want to make this more secure
-      github.user = "mitchellh";
+      github.user = "vancelongwill";
       push.default = "tracking";
       init.defaultBranch = "main";
     };
@@ -163,7 +158,7 @@ let sources = import ../../nix/sources.nix; in {
   programs.go = {
     enable = true;
     goPath = "code/go";
-    goPrivate = [ "github.com/mitchellh" "github.com/hashicorp" "rfc822.mx" ];
+    goPrivate = [ "github.com/vancelongwill" ];
   };
 
   programs.tmux = {
