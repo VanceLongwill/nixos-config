@@ -123,6 +123,7 @@ let sources = import ../../nix/sources.nix; in {
       gcp = "git cherry-pick";
       gdiff = "git diff";
       glol = "git prettylog";
+      gcmsg = "git commit -m ";
       gl = "git pull";
       gp = "git push";
       gs = "git status";
@@ -279,6 +280,13 @@ let sources = import ../../nix/sources.nix; in {
       vimPlugins.vim-markdown
       vimPlugins.vim-nix
       vimPlugins.typescript-vim
+
+      vimPlugins.nvim-cmp
+      vimPlugins.lspkind-nvim
+      vimPlugins.cmp-buffer
+      vimPlugins.cmp-nvim-lsp
+      vimPlugins.cmp-path
+      vimPlugins.cmp-cmdline
     ];
 
     extraConfig = (import ./vim-config.nix) { inherit sources; };
