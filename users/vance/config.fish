@@ -123,3 +123,23 @@ end
 # `fnix -p go` to get an environment with Go but use the fish shell along
 # with it.
 alias fnix "nix-shell --run fish"
+
+
+# C-x C-e bash style edit current command with vim
+function edit_cmd --description 'Edit cmdline in editor'
+        set -l f (mktemp --tmpdir=.)
+        set -l p (commandline -C)
+        commandline -b > $f
+        vim -c set\ ft=fish $f
+        commandline -r (more $f)
+        commandline -C $p
+        rm $f
+end
+bind \cx\ce edit_cmd
+
+# FZF latest branches and check out the selected
+alias fb "git branch --sort=committerdate -v --color=always | grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -v '/HEAD\s' | fzf --height 40% --ansi --multi --tac | sed 's/^..//' | awk '{print $1}' | sed 's#^remotes/[^/]*/##' | xargs git checkout"
+
+# Print the 5 most recently committed to branches (local)
+alias gb "git branch -v --color --sort -committerdate | head -n 5"
+

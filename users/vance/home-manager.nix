@@ -31,6 +31,10 @@ let sources = import ../../nix/sources.nix; in {
 
     pkgs.tlaplusToolbox
     pkgs.tetex
+
+    pkgs.google-cloud-sdk
+    pkgs.awscli2
+    pkgs.kubectl
   ];
 
   #---------------------------------------------------------------------
@@ -78,7 +82,8 @@ let sources = import ../../nix/sources.nix; in {
       gco = "git checkout";
       gcp = "git cherry-pick";
       gdiff = "git diff";
-      gl = "git prettylog";
+      glol = "git prettylog";
+      gl = "git pull";
       gp = "git push";
       gs = "git status";
       gt = "git tag";
@@ -117,8 +122,8 @@ let sources = import ../../nix/sources.nix; in {
       gco = "git checkout";
       gcp = "git cherry-pick";
       gdiff = "git diff";
-      gl = "git prettylog";
       glol = "git prettylog";
+      gl = "git pull";
       gp = "git push";
       gs = "git status";
       gt = "git tag";

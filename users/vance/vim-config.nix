@@ -4,6 +4,12 @@
 " Fix vim paths so we load the vim-misc directory
 let g:vim_home_path = "~/.vim"
 
+" Remap leader key to ,
+let g:mapleader=','
+
+" Prevent ESC being remapped in terminal mode (so I can close FZF with ESC)
+tnoremap <ESC> <ESC>
+
 " Enable true color support
 set termguicolors
 
