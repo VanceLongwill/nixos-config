@@ -130,6 +130,9 @@ let sources = import ../../nix/sources.nix; in {
       gt = "git tag";
       gst = "git status";
       gaa = "git add --all";
+      gunwip = "!git log -n 1 | grep -q -c '\-\-wip\-\-' && git reset HEAD~1";
+      gwip = "!git add -A; git rm $(git ls-files --deleted) 2> /dev/null; git commit --no-verify -m '--wip-- [skip ci]'";
+
       vim = "nvim";
 
       # Two decades of using a Mac has made this such a strong memory
