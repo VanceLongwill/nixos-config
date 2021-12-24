@@ -109,6 +109,7 @@ let sources = import ../../nix/sources.nix; in {
   programs.fish = {
     enable = true;
     interactiveShellInit = lib.strings.concatStrings (lib.strings.intersperse "\n" [
+      (builtins.readFile ./iterm2_shell_integration.fish)
       (builtins.readFile ./config.fish)
       "set -g SHELL ${pkgs.fish}/bin/fish"
     ]);
