@@ -103,7 +103,5 @@ alias fb "git branch --sort=committerdate -v --color=always | grep --color=auto 
 alias gb "git branch -v --color --sort -committerdate | head -n 5"
 
 # Some text doesn't show on pure with solarized-dark iterm2 theme
-set --universal pure_color_mute cyan
-
-
+set --universal pure_color_mute brgreen
 
