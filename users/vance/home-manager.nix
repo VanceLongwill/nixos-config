@@ -109,9 +109,6 @@ let sources = import ../../nix/sources.nix; in {
   programs.fish = {
     enable = true;
     interactiveShellInit = lib.strings.concatStrings (lib.strings.intersperse "\n" [
-      "source ${sources.theme-bobthefish}/fish_prompt.fish"
-      "source ${sources.theme-bobthefish}/fish_right_prompt.fish"
-      "source ${sources.theme-bobthefish}/fish_title.fish"
       (builtins.readFile ./config.fish)
       "set -g SHELL ${pkgs.fish}/bin/fish"
     ]);
@@ -130,8 +127,8 @@ let sources = import ../../nix/sources.nix; in {
       gt = "git tag";
       gst = "git status";
       gaa = "git add --all";
-      gunwip = "!git log -n 1 | grep -q -c '\-\-wip\-\-' && git reset HEAD~1";
-      gwip = "!git add -A; git rm $(git ls-files --deleted) 2> /dev/null; git commit --no-verify -m '--wip-- [skip ci]'";
+      gunwip = "!git log -n 1 | grep -q -c '--wip--' && git reset HEAD~1";
+      gwip = "!git add -A; git rm (git ls-files --deleted) 2> /dev/null; git commit --no-verify -m '--wip-- [skip ci]'";
 
       vim = "nvim";
 
@@ -147,7 +144,7 @@ let sources = import ../../nix/sources.nix; in {
     }) [
       "fish-fzf"
       "fish-foreign-env"
-      "theme-bobthefish"
+      "pure"
     ];
   };
 
@@ -199,13 +196,7 @@ let sources = import ../../nix/sources.nix; in {
       # keeps scroll position after highlight/mouse release
       unbind -T copy-mode-vi MouseDragEnd1Pane
 
-
-      set -g @dracula-show-battery false
-      set -g @dracula-show-network false
-      set -g @dracula-show-weather false
-
       run-shell ${sources.tmux-pain-control}/pain_control.tmux
-      run-shell ${sources.tmux-dracula}/dracula.tmux
     '';
   };
 

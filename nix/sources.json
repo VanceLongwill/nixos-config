@@ -155,6 +155,18 @@
         "url": "https://github.com/buildpacks/pack/archive/2cf2c3442f574a2239ea3ee17aad7058fefe5410.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
+    "pure": {
+        "branch": "master",
+        "description": "Pretty, minimal, and fast prompt for Fish from Zsh.fish theme prompt fish-theme fish-prompt ",
+        "homepage": "",
+        "owner": "pure-fish",
+        "repo": "pure",
+        "rev": "c0df5cb4726aa6831c0473556066a4cbf48fc79e",
+        "sha256": "1ki7b6b7nrb8fzhcslkvg6a9i5fi2da6bv9fm693yvhfhccf863b",
+        "type": "tarball",
+        "url": "https://github.com/pure-fish/pure/archive/c0df5cb4726aa6831c0473556066a4cbf48fc79e.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "theme-bobthefish": {
         "branch": "master",
         "description": "A Powerline-style, Git-aware fish theme optimized for awesome.",
