@@ -282,6 +282,10 @@ let sources = import ../../nix/sources.nix; in {
       vimPlugins.cmp-nvim-lsp
       vimPlugins.cmp-path
       vimPlugins.cmp-cmdline
+      vimPlugins.cmp-vsnip
+      vimPlugins.vim-vsnip
+      vimPlugins.vim-vsnip-integ
+      vimPlugins.friendly-snippets
     ];
 
     extraConfig = (import ./vim-config.nix) { inherit sources; };
