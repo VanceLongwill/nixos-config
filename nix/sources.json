@@ -281,10 +281,10 @@
         "homepage": null,
         "owner": "vance",
         "repo": "vim-misc",
-        "rev": "3581867f4ddc09a307c687e9a37ca1ba462074bb",
-        "sha256": "0g6yy0p5qb5yn8mcjw1mk0b1na1l891gshk41jihbm4vx64mgv9n",
+        "rev": "d5dd754281e7fe0bd1612030324db99875625c3b",
+        "sha256": "07j491q1xjinp0rks491yp8bavh5ccfvnslakkf5alrj128231m3",
         "type": "tarball",
-        "url": "https://github.com/VanceLongwill/vim-misc/archive/3581867f4ddc09a307c687e9a37ca1ba462074bb.tar.gz",
+        "url": "https://github.com/VanceLongwill/vim-misc/archive/d5dd754281e7fe0bd1612030324db99875625c3b.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "vim-nord": {
