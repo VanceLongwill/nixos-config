@@ -130,6 +130,13 @@ let sources = import ../../nix/sources.nix; in {
       gaa = "git add --all";
       gunwip = "!git log -n 1 | grep -q -c '--wip--' && git reset HEAD~1";
       gwip = "!git add -A; git rm (git ls-files --deleted) 2> /dev/null; git commit --no-verify -m '--wip-- [skip ci]'";
+      gcd = "git checkout develop";
+      gf = "git fetch";
+      grb = "git rebase";
+      grbc = "git rebase --continue";
+      grba = "git rebase --abort";
+      gm = "git merge";
+      gma = "git merge --abort";
 
       vim = "nvim";
 
