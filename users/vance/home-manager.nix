@@ -68,6 +68,8 @@ let sources = import ../../nix/sources.nix; in {
   # Programs
   #---------------------------------------------------------------------
 
+  programs.command-not-found.enable = true;
+
   programs.gpg.enable = true;
 
   programs.bash = {
@@ -106,54 +108,58 @@ let sources = import ../../nix/sources.nix; in {
     };
   };
 
-  programs.fish = {
+  programs.fzf = {
     enable = true;
-    interactiveShellInit = lib.strings.concatStrings (lib.strings.intersperse "\n" [
-      (builtins.readFile ./iterm2_shell_integration.fish)
-      (builtins.readFile ./config.fish)
-      "set -g SHELL ${pkgs.fish}/bin/fish"
-    ]);
+    enableZshIntegration = true;
+  };
+
+  programs.zsh = {
+    enable = true;
+    autocd = true;
+    enableAutosuggestions = true;
+    enableCompletion = true;
 
     shellAliases = {
-      ga = "git add";
-      gc = "git commit";
-      gco = "git checkout";
-      gcp = "git cherry-pick";
-      gdiff = "git diff";
-      glol = "git prettylog";
-      gcmsg = "git commit -m ";
-      gl = "git pull";
-      gp = "git push";
-      gs = "git status";
-      gt = "git tag";
-      gst = "git status";
-      gaa = "git add --all";
-      gunwip = "!git log -n 1 | grep -q -c '--wip--' && git reset HEAD~1";
-      gwip = "!git add -A; git rm (git ls-files --deleted) 2> /dev/null; git commit --no-verify -m '--wip-- [skip ci]'";
-      gcd = "git checkout develop";
-      gf = "git fetch";
-      grb = "git rebase";
-      grbc = "git rebase --continue";
-      grba = "git rebase --abort";
-      gm = "git merge";
-      gma = "git merge --abort";
-
       vim = "nvim";
-
-      # Two decades of using a Mac has made this such a strong memory
-      # that I'm just going to keep it consistent.
-      pbcopy = "xclip";
-      pbpaste = "xclip -o";
     };
 
-    plugins = map (n: {
-      name = n;
-      src  = sources.${n};
-    }) [
-      "fish-fzf"
-      "fish-foreign-env"
-      "pure"
+    oh-my-zsh = {
+      enable = true;
+
+      plugins = [
+        "command-not-found"
+        "git"
+        "history"
+        "sudo"
+      ];
+    };
+
+    zplug = {
+      enable = true;
+      plugins = [
+        { name = "zsh-users/zsh-autosuggestions"; } # Simple plugin installation
+        { name = "romkatv/powerlevel10k"; tags = [ as:theme depth:1 ]; } # Installations with additional options. For the list of options, please refer to Zplug README.
+      ];
+    };
+
+    plugins = [
+     {
+        name = "powerlevel10k-config";
+        src = lib.cleanSource ./p10k-config;
+        file = "p10k.zsh";
+      }
+      {
+        name = "zsh-nix-shell";
+        file = "nix-shell.plugin.zsh";
+        src = pkgs.fetchFromGitHub {
+          owner = "chisui";
+          repo = "zsh-nix-shell";
+          rev = "v0.4.0";
+          sha256 = "037wz9fqmx0ngcwl9az55fgkipb745rymznxnssr3rx9irb6apzg";
+        };
+      }
     ];
+
   };
 
   programs.git = {
@@ -252,7 +258,6 @@ let sources = import ../../nix/sources.nix; in {
     package = pkgs.neovim-nightly;
 
     plugins = with pkgs; [
-      customVim.vim-fish
       customVim.vim-fugitive
       customVim.vim-misc
       customVim.vim-pgsql
