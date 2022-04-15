@@ -35,6 +35,18 @@ let sources = import ../../nix/sources.nix; in {
     pkgs.google-cloud-sdk
     pkgs.awscli2
     pkgs.kubectl
+    pkgs.python
+    pkgs.terraform
+    pkgs.terraform-ls
+    pkgs.nodejs
+    pkgs.envsubst
+    pkgs.neovim-nightly
+    pkgs.yarn
+
+    pkgs.buf
+    pkgs.redis
+    pkgs.unzip
+    pkgs.ansible
   ];
 
   #---------------------------------------------------------------------
@@ -46,8 +58,6 @@ let sources = import ../../nix/sources.nix; in {
     LC_CTYPE = "en_GB.UTF-8";
     LC_ALL = "en_GB.UTF-8";
     EDITOR = "nvim";
-    PAGER = "less -FirSwX";
-    MANPAGER = "sh -c 'col -bx | ${pkgs.bat}/bin/bat -l man -p'";
   };
 
   home.file.".inputrc".source = ./inputrc;
@@ -123,6 +133,30 @@ let sources = import ../../nix/sources.nix; in {
       vim = "nvim";
     };
 
+    initExtraBeforeCompInit = ''
+fpath+=(/nix/var/nix/profiles/per-user/vance/home-manager/home-path/share/zsh/site-functions)
+    '';
+
+    initExtra = ''
+export FZF_DEFAULT_COMMAND='rg --files'
+
+# go path
+export PATH=$PATH:$(go env GOPATH)
+export PATH=$PATH:$(go env GOPATH)/bin
+
+fb() {
+  git branch --sort=committerdate -v --color=always | grep -v '/HEAD\s' |
+      fzf --height 40% --ansi --multi --tac | sed 's/^..//' | awk '{print $1}' |
+      sed 's#^remotes/[^/]*/##' | xargs git checkout
+}
+
+fba() {
+  git branch -a --sort=committerdate -v --color=always | grep -v '/HEAD\s' |
+      fzf --height 40% --ansi --multi --tac | sed 's/^..//' | awk '{print $1}' |
+      sed 's#^remotes/[^/]*/##' | xargs git checkout
+}
+    '';
+
     oh-my-zsh = {
       enable = true;
 
@@ -130,7 +164,6 @@ let sources = import ../../nix/sources.nix; in {
         "command-not-found"
         "git"
         "history"
-        "sudo"
       ];
     };
 
@@ -183,8 +216,14 @@ let sources = import ../../nix/sources.nix; in {
 
   programs.go = {
     enable = true;
-    goPath = "code/go";
-    goPrivate = [ "github.com/vancelongwill" ];
+    goPrivate = [
+      "github.com/vancelongwill"
+      "bitbucket.org/fraction-high-security-engineering/*"
+      "github.com/dojo-engineering/*"
+      "github.com/paymentsense/*"
+      "github.com/Paymentsense/*"
+      "github.com/PaddleHQ/*"
+    ];
   };
 
   programs.tmux = {
@@ -195,6 +234,7 @@ let sources = import ../../nix/sources.nix; in {
     prefix = "C-b";
 
     extraConfig = ''
+      set-option -g default-terminal "screen-256color"
       set -ga terminal-overrides ",*256col*:Tc"
       set-option -sg escape-time 10
 
@@ -210,7 +250,14 @@ let sources = import ../../nix/sources.nix; in {
       # keeps scroll position after highlight/mouse release
       unbind -T copy-mode-vi MouseDragEnd1Pane
 
-      run-shell ${sources.tmux-pain-control}/pain_control.tmux
+      # Vim style pane navigation (instead of arrow keys)
+      bind h select-pane -L
+      bind j select-pane -D
+      bind k select-pane -U
+      bind l select-pane -R
+
+      # <C-b>b to go to last window since <C-b>l is overwritten by the above pane navigation bindings
+      bind b last-window
     '';
   };
 
@@ -251,56 +298,6 @@ let sources = import ../../nix/sources.nix; in {
       "wireless _first_".enable = false;
       "battery all".enable = false;
     };
-  };
-
-  programs.neovim = {
-    enable = true;
-    package = pkgs.neovim-nightly;
-
-    plugins = with pkgs; [
-      customVim.vim-fugitive
-      customVim.vim-misc
-      customVim.vim-pgsql
-
-      customVim.vim-nord
-      customVim.nvim-comment
-      customVim.nvim-lspconfig
-      customVim.nvim-plenary # required for telescope
-      customVim.nvim-telescope
-      customVim.nvim-treesitter
-      customVim.nvim-treesitter-playground
-      customVim.nvim-treesitter-textobjects
-
-      customVim.solarized8
-
-      vimPlugins.fzf-vim
-      vimPlugins.markdown-preview-nvim
-      vimPlugins.nerdtree
-      vimPlugins.vim-surround
-      vimPlugins.vimwiki
-      vimPlugins.vim-oscyank
-      vimPlugins.vim-abolish
-      vimPlugins.vim-airline
-      vimPlugins.vim-airline-themes
-      vimPlugins.vim-gitgutter
-
-      vimPlugins.vim-markdown
-      vimPlugins.vim-nix
-      vimPlugins.typescript-vim
-
-      vimPlugins.nvim-cmp
-      vimPlugins.lspkind-nvim
-      vimPlugins.cmp-buffer
-      vimPlugins.cmp-nvim-lsp
-      vimPlugins.cmp-path
-      vimPlugins.cmp-cmdline
-      vimPlugins.cmp-vsnip
-      vimPlugins.vim-vsnip
-      vimPlugins.vim-vsnip-integ
-      vimPlugins.friendly-snippets
-    ];
-
-    extraConfig = (import ./vim-config.nix) { inherit sources; };
   };
 
   services.gpg-agent = {

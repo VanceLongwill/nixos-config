@@ -1,8 +1,7 @@
 { pkgs, ... }:
 
 {
-  # https://github.com/nix-community/home-manager/pull/2408
-  #environment.pathsToLink = [ "/share/fish" ];
+  environment.pathsToLink = [ "/share/zsh" ];
 
   users.users.vance = {
     isNormalUser = true;
